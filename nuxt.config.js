@@ -48,7 +48,12 @@ module.exports = {
                 'b-carousel-slide': 'img-src',
                 'b-embed': 'src'
             }
-        }
+        },
+        plugins: [
+            new webpack.DefinePlugin({
+                'API' : "'https://www.ghostsignhunter.org/api/'"
+            })
+        ]
     },
 
     axios: {
