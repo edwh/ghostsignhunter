@@ -13,6 +13,7 @@ import { setContext, getLocation, getRouteData } from './utils'
 
 /* Plugins */
 import nuxt_plugin_bootstrapvue_6dbb2cb8 from 'nuxt_plugin_bootstrapvue_6dbb2cb8' // Source: ./bootstrap-vue.js
+import nuxt_plugin_vuegooglemaps_6de007ed from 'nuxt_plugin_vuegooglemaps_6de007ed' // Source: ..\\plugins\\vue-googlemaps
 
 
 // Component: <no-ssr>
@@ -135,6 +136,7 @@ async function createApp (ssrContext) {
   // Plugin execution
   
   if (typeof nuxt_plugin_bootstrapvue_6dbb2cb8 === 'function') await nuxt_plugin_bootstrapvue_6dbb2cb8(app.context, inject)
+  if (typeof nuxt_plugin_vuegooglemaps_6de007ed === 'function') await nuxt_plugin_vuegooglemaps_6de007ed(app.context, inject)
   
 
   // If server-side, wait for async component to be resolved first
