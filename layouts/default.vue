@@ -24,5 +24,4 @@
         </b-navbar>
         <nuxt/>
     </div>
-
 </template>

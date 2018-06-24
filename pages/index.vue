@@ -18,3 +18,21 @@
         </b-row>
     </div>
 </template>
+
+<script>
+    import axios from 'axios'
+
+    export default {
+        async fetch ({ store, params }) {
+            console.log("Get signs");
+            let data = await axios.get('https://www.ghostsignhunter.org/api/sign')
+            console.log("Got signs", data);
+            let ret = data.data;
+            console.log("ret", ret);
+
+            if (ret.ret === 0) {
+                store.commit('setSigns', ret.signs)
+            }
+        }
+    }
+</script>

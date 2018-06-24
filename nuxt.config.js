@@ -1,3 +1,5 @@
+const webpack = require('webpack')
+
 module.exports = {
     head: {
         title: 'Ghost Sign Hunter',
@@ -16,9 +18,10 @@ module.exports = {
     },
     modules: [
         'bootstrap-vue/nuxt',
+        '@nuxtjs/axios',
     ],
     plugins: [
-        '~/plugins/vue-googlemaps'
+        '~/plugins/vue-googlemaps',
     ],
     build: {
         extend (config, {isDev, isClient}) {
@@ -46,5 +49,13 @@ module.exports = {
                 'b-embed': 'src'
             }
         }
-    }
+    },
+
+    axios: {
+        proxy: true
+    },
+
+    proxy: [
+        'https://www.ghostsignhunter.org/api'
+    ]
 }
