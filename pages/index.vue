@@ -45,7 +45,6 @@
                 </b-col>
             </b-row>
         </b-modal>
-        <b-button v-if="isFBReady" :disabled="isFBReady" variant="success" @click="fbsignin()">Sign in with Facebook</b-button>
     </div>
 </template>
 
@@ -59,22 +58,9 @@
                 modalShow: false,
                 modalItem: null,
                 showPhoto: false,
-                isFBReady: false
             }
         },
-        mounted: function () {
-            this.isFBReady = Vue.FB != undefined
-            window.addEventListener('fb-sdk-ready', this.onFBReady)
-        },
-        beforeDestroy: function () {
-            window.removeEventListener('fb-sdk-ready', this.onFBReady)
-        },
         methods: {
-            onFBReady: function () {
-                console.log("Facebook is ready");
-                this.isFBReady = true
-            },
-
             getStart: function() {
                 return({
                     lat:53.9450,
@@ -146,24 +132,6 @@
                 console.log("Set show", val);
                 this.showPhoto = val;
             },
-
-            fbsignin: function() {
-                var self = this;
-                console.log("Facebook sign in");
-
-                Vue.FB.login(function (response) {
-                    console.log("Facebook login returned", response);
-                    if (response.status == 'connected')
-                    let data = {
-                        token: response.authResponse.access_token,
-                        facebookid: response.authResponse.userID
-                    }
-
-                    self.$store.commit('setFacebook', data);
-                }, {
-                    scope: 'email'
-                });
-            }
         },
     }
 </script>

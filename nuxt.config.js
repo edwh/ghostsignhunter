@@ -24,6 +24,11 @@ module.exports = {
         '~/plugins/vue-googlemaps',
         '~/plugins/fb-sdk'
     ],
+
+    css: [
+        '@/assets/css/style.css'
+    ],
+
     build: {
         extend (config, {isDev, isClient}) {
             if (!isClient) {

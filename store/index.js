@@ -4,7 +4,8 @@ const createStore = () => {
     return new Vuex.Store({
         state: {
             signs: [],
-            facebook: null
+            facebook: null,
+            loggedIn: false
         },
         mutations: {
             setSigns (state, signs) {
@@ -16,8 +17,14 @@ const createStore = () => {
                 state.mapModalOpen = open;
             },
 
-            setFacebook(data) {
+            setFacebook(state, data) {
                 state.facebook = data;
+                state.loggedIn = true;
+            },
+
+            clearFacebook(state) {
+                state.facebook = null;
+                state.loggedIn = false;
             }
         }
     })

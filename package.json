@@ -15,5 +15,9 @@
     "vue-axios": "^2.1.1",
     "vue-underscore": "^0.1.4",
     "vue2-google-maps": "^0.9.7"
+  },
+  "devDependencies": {
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.0.3"
   }
 }
