@@ -8,6 +8,14 @@ const createStore = () => {
         mutations: {
             setSigns (state, signs) {
                 state.signs = signs;
+            },
+
+            setMapModalOpen(state, open) {
+                state.mapModalOpen = open;
+            },
+
+            setMapModalItem(state, item) {
+                state.mapModalItem = item;
             }
         }
     })
