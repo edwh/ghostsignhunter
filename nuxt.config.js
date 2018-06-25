@@ -74,5 +74,11 @@ module.exports = {
 
     proxy: [
         'https://www.ghostsignhunter.org/api'
-    ]
+    ],
+
+    generate: {
+        minify: {
+            collapseWhitespace: false
+        }
+    }
 }
