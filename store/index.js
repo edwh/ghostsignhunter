@@ -5,7 +5,9 @@ const createStore = () => {
         state: {
             signs: [],
             facebook: null,
-            loggedIn: false
+            loggedIn: false,
+            centre: null,
+            zoom: null
         },
         mutations: {
             setSigns (state, signs) {
@@ -25,6 +27,17 @@ const createStore = () => {
             clearFacebook(state) {
                 state.facebook = null;
                 state.loggedIn = false;
+            },
+
+            setZoom(state, zoom) {
+                state.zoom = zoom;
+            },
+
+            setCentre(state, [ lat, lng ]) {
+                state.centre = {
+                    lat: lat,
+                    lng: lng
+                }
             }
         }
     })

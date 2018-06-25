@@ -22,7 +22,8 @@ module.exports = {
     ],
     plugins: [
         '~/plugins/vue-googlemaps',
-        '~/plugins/fb-sdk'
+        '~/plugins/fb-sdk',
+        { src: '~/plugins/localStorage.js', ssr: false }
     ],
 
     css: [

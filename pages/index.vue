@@ -6,7 +6,7 @@
             <b-col cols="12" sm="8" class="text-center p-0">
                 <GmapMap rounded
                          :center="getStart()"
-                         :zoom="7"
+                         :zoom="getZoom()"
                          map-type-id="terrain"
                          ref="map"
                          @idle="onIdle"
@@ -62,10 +62,16 @@
         },
         methods: {
             getStart: function() {
-                return({
+                let centre = this.$store.state.centre;
+                return(centre ? centre : {
                     lat:53.9450,
                     lng:-2.5209
                 });
+            },
+
+            getZoom: function() {
+                let zoom = this.$store.state.zoom;
+                return(zoom ? zoom : 7)
             },
 
             onIdle: function() {
@@ -76,6 +82,15 @@
                 let bounds = map.getBounds();
                 let sw = bounds.getSouthWest();
                 let ne = bounds.getNorthEast();
+
+                // Save map position for next time we load the site.
+                this.$store.commit('setViewport', sw.lat(), sw.lng(), ne.lat(), ne.lng());
+
+                let centre = map.getCenter();
+                let clat = centre.lat();
+                let clng = centre.lng();
+                this.$store.commit('setCentre', [ clat, clng ])
+                this.$store.commit('setZoom', map.getZoom())
 
                 // Fetch the signs in this viewport.
                 let data = {
