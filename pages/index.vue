@@ -20,14 +20,23 @@
         </b-row>
         <b-modal v-model="modalShow" ref="mapModal" title="Ghost Sign Details">
             <b-row>
-                <b-col v-if="modalItem" class="float-right">
-                    #{{ modalItem.id }}
+                <b-col v-if="modalItem">
+                    <span class="float-right text-muted">
+                        #{{ modalItem.id }}
+                    </span>
                 </b-col>
             </b-row>
             <p class="my-4"></p>
             <b-row>
                 <b-col cols="12">
-                    <b-img fluid v-if="modalItem" rounded alt="Ghost sign image" title="Ghost sign image" :src="modalItem.path" />
+                    <p>It's more fun if you try to find the sign first, but you can see a photo:</p>
+                    <b-button variant="success" v-if="!showPhoto && modalItem" @click="setShowPhoto(true)">Show photo</b-button>
+                    <b-button variant="success" v-if="showPhoto && modalItem" @click="setShowPhoto(false)">Hide photo</b-button>
+                </b-col>
+            </b-row>
+            <b-row>
+                <b-col cols="12">
+                    <b-img fluid v-if="showPhoto && modalItem" rounded alt="Ghost sign image" title="Ghost sign image" :src="modalItem.path" />
                 </b-col>
             </b-row>
         </b-modal>
@@ -41,7 +50,8 @@
         data () {
             return {
                 modalShow: false,
-                modalItem: null
+                modalItem: null,
+                showPhoto: false
             }
         },
         methods: {
@@ -100,6 +110,11 @@
             toggleModal: function(item, key) {
                 this.modalShow = !this.modalShow;
                 this.modalItem = item;
+            },
+
+            setShowPhoto: function(val) {
+                console.log("Set show", val);
+                this.showPhoto = val;
             }
         },
     }
