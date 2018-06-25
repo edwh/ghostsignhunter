@@ -45,6 +45,7 @@
                 </b-col>
             </b-row>
         </b-modal>
+        <b-button variant="success" @click="fbsignin()">Sign in with Facebook</b-button>
     </div>
 </template>
 
@@ -129,6 +130,16 @@
             setShowPhoto: function(val) {
                 console.log("Set show", val);
                 this.showPhoto = val;
+            },
+
+            fbsignin: function() {
+                console.log("Sign in");
+                this.$auth.authenticate('facebook').then(function () {
+                    console.log("Signed in");
+                    // Execute application logic after successful social authentication
+                }).catch(function(e) {
+                    console.log("Failed", e)
+                });
             }
         },
     }

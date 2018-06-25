@@ -15,6 +15,7 @@ import { createStore } from './store.js'
 import nuxt_plugin_axios_d34c30ee from 'nuxt_plugin_axios_d34c30ee' // Source: ./axios.js
 import nuxt_plugin_bootstrapvue_6dbb2cb8 from 'nuxt_plugin_bootstrapvue_6dbb2cb8' // Source: ./bootstrap-vue.js
 import nuxt_plugin_vuegooglemaps_6de007ed from 'nuxt_plugin_vuegooglemaps_6de007ed' // Source: ..\\plugins\\vue-googlemaps
+import nuxt_plugin_vueauthenticate_30301b32 from 'nuxt_plugin_vueauthenticate_30301b32' // Source: ..\\plugins\\vue-authenticate
 
 
 // Component: <no-ssr>
@@ -156,6 +157,7 @@ async function createApp (ssrContext) {
   if (typeof nuxt_plugin_axios_d34c30ee === 'function') await nuxt_plugin_axios_d34c30ee(app.context, inject)
   if (typeof nuxt_plugin_bootstrapvue_6dbb2cb8 === 'function') await nuxt_plugin_bootstrapvue_6dbb2cb8(app.context, inject)
   if (typeof nuxt_plugin_vuegooglemaps_6de007ed === 'function') await nuxt_plugin_vuegooglemaps_6de007ed(app.context, inject)
+  if (typeof nuxt_plugin_vueauthenticate_30301b32 === 'function') await nuxt_plugin_vueauthenticate_30301b32(app.context, inject)
   
 
   // If server-side, wait for async component to be resolved first

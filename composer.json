@@ -1,0 +1,30 @@
+{
+  "name": "vendor_name/package_name",
+  "description": "description_text",
+  "minimum-stability": "stable",
+  "license": "GPLv3",
+  "authors": [
+    {
+      "name": "Edward Hibbert",
+      "email": "edward@ehibbert.org.uk"
+    }
+  ],
+  "require": {
+    "phpunit/phpunit": "5.3",
+    "pda/pheanstalk": "^3.0",
+    "minishlink/web-push": "^0.2.2",
+    "google/apiclient": "^1.1",
+    "jenssegers/imagehash": "^0.4.0",
+    "phpunit/phpunit-selenium": "^3.0",
+    "facebook/webdriver": "^1.1",
+    "swiftmailer/swiftmailer": "@stable",
+    "abraham/twitteroauth": "^0.6.4",
+    "Oefenweb/damerau-levenshtein": "^2.1",
+    "googleads/googleads-php-lib": "^15.0",
+    "paypal/merchant-sdk-php": "^3.9",
+    "microsoft/windowsazure": "^0.5.1",
+    "kasp3r/link-preview": "^2.0",
+    "twig/twig": "~1.0",
+    "facebook/graph-sdk": "^5.6"
+  }
+}

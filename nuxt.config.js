@@ -22,6 +22,7 @@ module.exports = {
     ],
     plugins: [
         '~/plugins/vue-googlemaps',
+        '~/plugins/vue-authenticate'
     ],
     build: {
         extend (config, {isDev, isClient}) {
@@ -51,7 +52,9 @@ module.exports = {
         },
         plugins: [
             new webpack.DefinePlugin({
-                'API' : "'https://www.ghostsignhunter.org/api/'"
+                'API' : "'https://www.ghostsignhunter.org/api/'",
+                'FACEBOOK_APPID' : '1917283041629729',
+                'SITE' : "'https://www.ghostsignhunter.org'"
             }),
             new webpack.ProvidePlugin({
                 '_': 'lodash'
