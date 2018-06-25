@@ -4,6 +4,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 const _007961f8 = () => import('..\\pages\\terms.vue' /* webpackChunkName: "pages_terms" */).then(m => m.default || m)
+const _7659f652 = () => import('..\\pages\\add.vue' /* webpackChunkName: "pages_add" */).then(m => m.default || m)
 const _22c33d8e = () => import('..\\pages\\privacy.vue' /* webpackChunkName: "pages_privacy" */).then(m => m.default || m)
 const _567ba3c3 = () => import('..\\pages\\index.vue' /* webpackChunkName: "pages_index" */).then(m => m.default || m)
 
@@ -69,6 +70,11 @@ export function createRouter () {
 			path: "/terms",
 			component: _007961f8,
 			name: "terms"
+		},
+		{
+			path: "/add",
+			component: _7659f652,
+			name: "add"
 		},
 		{
 			path: "/privacy",

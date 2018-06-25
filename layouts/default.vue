@@ -12,7 +12,7 @@
 
                 <b-navbar-nav>
                     <b-nav-item href="/">Map</b-nav-item>
-                    <b-nav-item v-if="$store.state.loggedin" href="/add">Add</b-nav-item>
+                    <b-nav-item v-if="$store.state.loggedIn" href="/add">Add</b-nav-item>
                     <b-nav-item v-else @click="login">Add</b-nav-item>
                 </b-navbar-nav>
 

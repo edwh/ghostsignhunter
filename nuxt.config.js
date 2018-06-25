@@ -23,6 +23,7 @@ module.exports = {
     plugins: [
         '~/plugins/vue-googlemaps',
         '~/plugins/fb-sdk',
+        { src: '~plugins/vue-core-image-upload.js', ssr: false },
         { src: '~/plugins/localStorage.js', ssr: false }
     ],
 
@@ -60,7 +61,8 @@ module.exports = {
             new webpack.DefinePlugin({
                 'API' : "'https://www.ghostsignhunter.org/api/'",
                 'FACEBOOK_APPID' : '1917283041629729',
-                'SITE' : "'https://www.ghostsignhunter.org'"
+                'SITE' : "'https://www.ghostsignhunter.org'",
+                'GOOGLE_MAPKEY': "'AIzaSyBVEwwZ9dBpRLXMcdJv1LDrAV-JY-F6kzI'"
             }),
             new webpack.ProvidePlugin({
                 '_': 'lodash'

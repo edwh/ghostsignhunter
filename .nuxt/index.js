@@ -16,6 +16,7 @@ import nuxt_plugin_axios_d34c30ee from 'nuxt_plugin_axios_d34c30ee' // Source: .
 import nuxt_plugin_bootstrapvue_6dbb2cb8 from 'nuxt_plugin_bootstrapvue_6dbb2cb8' // Source: ./bootstrap-vue.js
 import nuxt_plugin_vuegooglemaps_6de007ed from 'nuxt_plugin_vuegooglemaps_6de007ed' // Source: ..\\plugins\\vue-googlemaps
 import nuxt_plugin_fbsdk_6900aac2 from 'nuxt_plugin_fbsdk_6900aac2' // Source: ..\\plugins\\fb-sdk
+import nuxt_plugin_vuecoreimageupload_2863c8f4 from 'nuxt_plugin_vuecoreimageupload_2863c8f4' // Source: ..\\plugins\\vue-core-image-upload.js (ssr: false)
 import nuxt_plugin_localStorage_830ec59e from 'nuxt_plugin_localStorage_830ec59e' // Source: ..\\plugins\\localStorage.js (ssr: false)
 
 
@@ -161,6 +162,7 @@ async function createApp (ssrContext) {
   if (typeof nuxt_plugin_fbsdk_6900aac2 === 'function') await nuxt_plugin_fbsdk_6900aac2(app.context, inject)
   
   if (process.browser) { 
+    if (typeof nuxt_plugin_vuecoreimageupload_2863c8f4 === 'function') await nuxt_plugin_vuecoreimageupload_2863c8f4(app.context, inject)
     if (typeof nuxt_plugin_localStorage_830ec59e === 'function') await nuxt_plugin_localStorage_830ec59e(app.context, inject)
   }
 
