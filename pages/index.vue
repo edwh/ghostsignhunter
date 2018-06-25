@@ -12,7 +12,9 @@
                          @idle="onIdle"
                          style="width: 100%; height: calc(100vh - 56px)"
                 >
-                    <gmap-marker v-for="(item, key) in $store.state.signs" :key="key" :position="getPosition(item)" :icon="getIcon(item)" :clickable="true" @click="toggleModal(item, key)" />
+                    <gmap-cluster>
+                        <gmap-marker v-for="(item, key) in $store.state.signs" :key="key" :position="getPosition(item)" :icon="getIcon(item)" :clickable="true" @click="toggleModal(item, key)" />
+                    </gmap-cluster>
                 </GmapMap>
             </b-col>
             <b-col cols="0" sm="2" class="d-none d-sm-block">
