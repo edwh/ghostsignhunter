@@ -12,14 +12,15 @@
 
                 <b-navbar-nav>
                     <b-nav-item href="/">Map</b-nav-item>
-                    <b-nav-item href="/add">Add</b-nav-item>
+                    <b-nav-item v-if="$store.state.loggedin" href="/add">Add</b-nav-item>
+                    <b-nav-item v-else @click="login">Add</b-nav-item>
                 </b-navbar-nav>
 
                 <b-navbar-nav class="ml-auto">
                     <b-nav-item href="/privacy">Privacy</b-nav-item>
                     <b-nav-item href="/terms">Terms</b-nav-item>
                     <b-nav-item v-if="$store.state.loggedIn">
-                        <b-button size="sm" variant="warning" @click="logout">Logout</b-button>
+                        <b-button size="sm" @click="logout">Logout</b-button>
                     </b-nav-item>
                     <b-nav-item v-else>
                         <b-button size="sm" variant="warning" @click="login">Login</b-button>
@@ -47,7 +48,6 @@
 
     export default {
         data () {
-            console.log("get data");
             return {
                 isFBReady: false,
                 loginShow: false
