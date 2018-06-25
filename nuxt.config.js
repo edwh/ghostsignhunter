@@ -52,6 +52,9 @@ module.exports = {
         plugins: [
             new webpack.DefinePlugin({
                 'API' : "'https://www.ghostsignhunter.org/api/'"
+            }),
+            new webpack.ProvidePlugin({
+                '_': 'lodash'
             })
         ]
     },

@@ -21,6 +21,9 @@
         <b-modal v-model="modalShow" ref="mapModal" title="Ghost Sign Details">
             <b-row>
                 <b-col v-if="modalItem">
+                    <em>Found by {{ modalItem.user.displayname }}</em>
+                </b-col>
+                <b-col cols="1" v-if="modalItem">
                     <span class="float-right text-muted">
                         #{{ modalItem.id }}
                     </span>
@@ -29,9 +32,9 @@
             <p class="my-4"></p>
             <b-row>
                 <b-col cols="12">
-                    <p>It's more fun if you try to find the sign first, but you can see a photo:</p>
-                    <b-button variant="success" v-if="!showPhoto && modalItem" @click="setShowPhoto(true)">Show photo</b-button>
-                    <b-button variant="success" v-if="showPhoto && modalItem" @click="setShowPhoto(false)">Hide photo</b-button>
+                    <p>It's more fun if you try to find the sign yourself first, but you can click to unlock the photo.</p>
+                    <b-button variant="success" v-if="!showPhoto && modalItem" @click="setShowPhoto(true)">Unlock photo</b-button>
+                    <b-button variant="success" class="mb-3" v-if="showPhoto && modalItem" @click="setShowPhoto(false)">Hide photo</b-button>
                 </b-col>
             </b-row>
             <b-row>
@@ -44,7 +47,7 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    import axios from 'axios';
 
     export default {
         data () {
@@ -78,16 +81,24 @@
                     nelng: ne.lng()
                 };
 
-                console.log("Data", data);
                 axios.get(API + 'sign', {
                     params: data
                 }).then(function(response) {
-                    console.log("Got response", response);
                     var ret = response.data;
 
                     if (ret.ret === 0) {
+                        _.each(ret.signs, (sign) => {
+                            let found = null;
+                            _.each(ret.users, (user) => {
+                                if (user.id == sign.userid) {
+                                    found = user;
+                                }
+                            });
+
+                            sign.user = found;
+                        })
+
                         self.$store.commit('setSigns', ret.signs);
-                        console.log("Stored", ret.signs);
                     }
                 })
             },
@@ -110,6 +121,7 @@
             toggleModal: function(item, key) {
                 this.modalShow = !this.modalShow;
                 this.modalItem = item;
+                console.log("show modal", item);
             },
 
             setShowPhoto: function(val) {
