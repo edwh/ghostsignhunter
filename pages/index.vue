@@ -18,11 +18,16 @@
             <b-col cols="0" sm="2" class="d-none d-sm-block">
             </b-col>
         </b-row>
-        <b-modal ref="mapModal" title="Ghost Sign Details">
+        <b-modal v-model="modalShow" ref="mapModal" title="Ghost Sign Details">
+            <b-row>
+                <b-col v-if="modalItem" class="float-right">
+                    #{{ modalItem.id }}
+                </b-col>
+            </b-row>
             <p class="my-4"></p>
             <b-row>
                 <b-col cols="12">
-                    <b-img fluid v-if="$store.state.mapModalOpen" rounded alt="Ghost sign image" title="Ghost sign image" :src="$store.state.mapModalItem.path" />
+                    <b-img fluid v-if="modalItem" rounded alt="Ghost sign image" title="Ghost sign image" :src="modalItem.path" />
                 </b-col>
             </b-row>
         </b-modal>
@@ -33,6 +38,12 @@
     import axios from 'axios'
 
     export default {
+        data () {
+            return {
+                modalShow: false,
+                modalItem: null
+            }
+        },
         methods: {
             'getStart': function() {
                 return({
@@ -87,16 +98,8 @@
             },
 
             toggleModal: function(item, key) {
-                console.log("Toggle", item, key);
-                this.$store.commit('setMapModalOpen', this.$store.state.mapModalOpen ? false : true);
-                console.log("Open", this.$store.state.mapModalOpen);
-
-                if (this.$store.state.mapModalOpen) {
-                    this.$store.commit('setMapModalItem', item);
-                    this.$refs.mapModal.show();
-                } else {
-                    this.$refs.mapModal.hide();
-                }
+                this.modalShow = !this.modalShow;
+                this.modalItem = item;
             }
         },
     }

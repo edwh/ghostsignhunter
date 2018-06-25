@@ -10,12 +10,9 @@ const createStore = () => {
                 state.signs = signs;
             },
 
-            setMapModalOpen(state, open) {
-                state.mapModalOpen = open;
-            },
-
-            setMapModalItem(state, item) {
+            setMapModalOpen(state, open, item) {
                 state.mapModalItem = item;
+                state.mapModalOpen = open;
             }
         }
     })
