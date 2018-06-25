@@ -23,10 +23,11 @@
         <b-modal okOnly ok-title="Close" v-model="modalShow" ref="mapModal" title="Ghost Sign Details">
             <b-row>
                 <b-col v-if="modalItem">
-                    <em>Found by {{ modalItem.user.displayname }}</em>
+                    <b-img v-if="modalItem" rounded="circle" alt="Avatar picture" title="Avatar picture" :src="getUserProfile()" />
+                    <em>&nbsp; Found by {{ modalItem.user.displayname }}</em>
                 </b-col>
                 <b-col cols="1" v-if="modalItem">
-                    <span class="float-right text-muted">
+                    <span class="float-right text-muted small">
                         #{{ modalItem.id }}
                     </span>
                 </b-col>
@@ -84,8 +85,6 @@
                 let ne = bounds.getNorthEast();
 
                 // Save map position for next time we load the site.
-                this.$store.commit('setViewport', sw.lat(), sw.lng(), ne.lat(), ne.lng());
-
                 let centre = map.getCenter();
                 let clat = centre.lat();
                 let clng = centre.lng();
@@ -147,6 +146,10 @@
                 console.log("Set show", val);
                 this.showPhoto = val;
             },
+
+            getUserProfile: function() {
+                return this.modalItem ? ('https://graph.facebook.com/' + this.modalItem.user.facebook.facebookid + '/picture') : null;
+            }
         },
     }
 </script>
