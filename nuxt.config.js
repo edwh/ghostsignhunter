@@ -22,7 +22,7 @@ module.exports = {
     ],
     plugins: [
         '~/plugins/vue-googlemaps',
-        '~/plugins/vue-authenticate'
+        '~/plugins/fb-sdk'
     ],
     build: {
         extend (config, {isDev, isClient}) {

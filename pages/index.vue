@@ -45,29 +45,44 @@
                 </b-col>
             </b-row>
         </b-modal>
-        <b-button variant="success" @click="fbsignin()">Sign in with Facebook</b-button>
+        <b-button v-if="isFBReady" :disabled="isFBReady" variant="success" @click="fbsignin()">Sign in with Facebook</b-button>
     </div>
 </template>
 
 <script>
     import axios from 'axios';
+    import Vue from 'vue';
 
     export default {
         data () {
             return {
                 modalShow: false,
                 modalItem: null,
-                showPhoto: false
+                showPhoto: false,
+                isFBReady: false
             }
         },
+        mounted: function () {
+            this.isFBReady = Vue.FB != undefined
+            window.addEventListener('fb-sdk-ready', this.onFBReady)
+        },
+        beforeDestroy: function () {
+            window.removeEventListener('fb-sdk-ready', this.onFBReady)
+        },
         methods: {
-            'getStart': function() {
+            onFBReady: function () {
+                console.log("Facebook is ready");
+                this.isFBReady = true
+            },
+
+            getStart: function() {
                 return({
                     lat:53.9450,
                     lng:-2.5209
                 });
             },
-            'onIdle': function() {
+
+            onIdle: function() {
                 var self = this;
 
                 // Get the bounds of the map.
@@ -133,12 +148,20 @@
             },
 
             fbsignin: function() {
-                console.log("Sign in");
-                this.$auth.authenticate('facebook').then(function () {
-                    console.log("Signed in");
-                    // Execute application logic after successful social authentication
-                }).catch(function(e) {
-                    console.log("Failed", e)
+                var self = this;
+                console.log("Facebook sign in");
+
+                Vue.FB.login(function (response) {
+                    console.log("Facebook login returned", response);
+                    if (response.status == 'connected')
+                    let data = {
+                        token: response.authResponse.access_token,
+                        facebookid: response.authResponse.userID
+                    }
+
+                    self.$store.commit('setFacebook', data);
+                }, {
+                    scope: 'email'
                 });
             }
         },
