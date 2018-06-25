@@ -18,11 +18,11 @@
                 <b-navbar-nav class="ml-auto">
                     <b-nav-item href="/privacy">Privacy</b-nav-item>
                     <b-nav-item href="/terms">Terms</b-nav-item>
-                    <b-nav-item v-if="!$store.state.loggedIn">
-                        <b-button size="sm" variant="warning" @click="login">Login</b-button>
-                    </b-nav-item>
                     <b-nav-item v-if="$store.state.loggedIn">
                         <b-button size="sm" variant="warning" @click="logout">Logout</b-button>
+                    </b-nav-item>
+                    <b-nav-item v-else>
+                        <b-button size="sm" variant="warning" @click="login">Login</b-button>
                     </b-nav-item>
                 </b-navbar-nav>
 
@@ -32,7 +32,7 @@
             <b-row>
                 <b-col class="text-center">
                     <p>We only support logging in with Facebook at the moment.</p>
-                    <b-img class="clickme" v-if="isFBReady" @click="fbsignin" src="~/assets/signin/facebook.png" alt="Log in with Facebook" title="Log in with Facebook" />
+                    <b-img class="clickme" v-if="isFBReady" @click="fblogin" src="~/assets/signin/facebook.png" alt="Log in with Facebook" title="Log in with Facebook" />
                 </b-col>
             </b-row>
         </b-modal>
@@ -47,6 +47,7 @@
 
     export default {
         data () {
+            console.log("get data");
             return {
                 isFBReady: false,
                 loginShow: false
@@ -70,7 +71,7 @@
                 this.loginShow = true;
             },
 
-            fbsignin: function() {
+            fblogin: function() {
                 var self = this;
                 console.log("Facebook sign in", self);
 
