@@ -12,7 +12,7 @@
                          @idle="onIdle"
                          style="width: 100%; height: calc(100vh - 56px)"
                 >
-                    <gmap-marker v-for="(item, key) in $store.state.signs" :key="key" :position="getPosition(item)" :clickable="true" @click="toggleInfo(item, key)" />
+                    <gmap-marker v-for="(item, key) in $store.state.signs" :key="key" :position="getPosition(item)" :icon="getIcon(item)" :clickable="true" @click="toggleInfo(item, key)" />
                 </GmapMap>
 
             </b-col>
@@ -59,11 +59,18 @@
             },
 
             getPosition: function(marker) {
-                console.log("Get position", marker);
                 return {
                     lat: parseFloat(marker.lat),
                     lng: parseFloat(marker.lng)
                 }
+            },
+
+            getIcon: function(marker) {
+                return({
+                    url: require('~/assets/mapicon.png'),
+                    size: {width: 46, height: 46, f: 'px', b: 'px'},
+                    scaledSize: {width: 23, height: 23, f: 'px', b: 'px'}
+                });
             }
         },
     }
