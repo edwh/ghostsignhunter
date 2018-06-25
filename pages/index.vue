@@ -18,7 +18,7 @@
             <b-col cols="0" sm="2" class="d-none d-sm-block">
             </b-col>
         </b-row>
-        <b-modal v-model="modalShow" ref="mapModal" title="Ghost Sign Details">
+        <b-modal okOnly ok-title="Close" v-model="modalShow" ref="mapModal" title="Ghost Sign Details">
             <b-row>
                 <b-col v-if="modalItem">
                     <em>Found by {{ modalItem.user.displayname }}</em>
