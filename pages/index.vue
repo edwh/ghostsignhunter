@@ -20,7 +20,7 @@
             <b-col cols="0" sm="2" class="d-none d-sm-block">
             </b-col>
         </b-row>
-        <b-modal okOnly ok-title="Close" v-model="modalShow" ref="mapModal" title="Ghost Sign Details">
+        <b-modal okOnly ok-title="Close" v-model="modalShow" ref="mapModal" :title="modalTitle">
             <b-row>
                 <b-col v-if="modalItem">
                     <b-img v-if="modalItem" rounded="circle" alt="Avatar picture" title="Avatar picture" :src="getUserProfile()" />
@@ -32,7 +32,11 @@
                     </span>
                 </b-col>
             </b-row>
-            <p class="my-4"></p>
+            <hr  v-if="modalItem" />
+            <p class="my-4" v-if="modalItem">
+                {{ modalItem.notes }}
+            </p>
+            <hr  v-if="modalItem" />
             <b-row>
                 <b-col cols="12">
                     <p>It's more fun if you try to find the sign yourself first, but you can click to unlock the photo.</p>
@@ -58,6 +62,7 @@
             return {
                 modalShow: false,
                 modalItem: null,
+                modalTitle: 'Ghost Sign Details',
                 showPhoto: false,
             }
         },
@@ -139,6 +144,7 @@
             toggleModal: function(item, key) {
                 this.modalShow = !this.modalShow;
                 this.modalItem = item;
+                this.modalTitle = this.modalItem && this.modalItem.title ? this.modalItem.title : "Ghost Sign Details";
                 console.log("show modal", item);
             },
 

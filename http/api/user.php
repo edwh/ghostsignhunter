@@ -70,7 +70,6 @@ function user() {
 
                         error_log("Save uid $uid");
                         $_SESSION['id'] = $uid;
-                        error_log("Saved {$_SESSION['id']}");
                     }
 
                 } catch (Exception $e) {

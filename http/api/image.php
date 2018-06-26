@@ -72,8 +72,8 @@ function image() {
                 $photo = presdef('photo', $_FILES, NULL) ? $_FILES['photo'] : $_REQUEST['photo'];
                 $lat = pres('lat', $_REQUEST) ? floatval($_REQUEST['lat']) : NULL;
                 $lng = pres('lng', $_REQUEST) ? floatval($_REQUEST['lng']) : NULL;
-                error_log("REquest" . var_export($_REQUEST, TRUE));
-                error_log("Photo at $lat, $lng " . var_export($photo, TRUE));
+                $title = pres('title', $_REQUEST) ? $_REQUEST['title'] : NULL;
+                $notes = pres('notes', $_REQUEST) ? $_REQUEST['notes'] : NULL;
 
                 $mimetype = presdef('type', $photo, NULL);
 
@@ -125,8 +125,10 @@ function image() {
 
                     if ($data) {
                         $a = new Sign($dbhr, $dbhm, NULL);
-                        $id = $a->create($lat, $lng, $data);
+                        $id = $a->create($lat, $lng, $data, $title, $notes);
                         error_log("Created $id");
+
+                        error_log("Session " . var_export($_SESSION, TRUE));
 
                         if (pres('id', $_SESSION)) {
                             error_log("Record creator " . $_SESSION['id']);

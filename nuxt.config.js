@@ -9,7 +9,7 @@ module.exports = {
             {hid: 'description', content: 'Hunt those ghosts!'}
         ],
         link: [
-            {rel: 'icon', type: 'image/x-icon', href: 'favicon.ico'}
+            {rel: 'icon', type: 'image/x-icon', href: '~assets/favicon.ico'}
         ]
     },
     css: [],

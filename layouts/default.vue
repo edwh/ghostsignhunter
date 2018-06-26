@@ -56,6 +56,12 @@
         mounted: function () {
             this.isFBReady = Vue.FB != undefined
             window.addEventListener('fb-sdk-ready', this.onFBReady)
+
+            console.log("Logged in?", this.$store.state.loggedIn);
+            if (this.$store.state.loggedIn) {
+                // We think we're logged in.  Bounce it off the server to check.
+                this.loginToServer();
+            }
         },
         beforeDestroy: function () {
             window.removeEventListener('fb-sdk-ready', this.onFBReady)
@@ -69,6 +75,35 @@
             login: function() {
                 console.log("Login");
                 this.loginShow = true;
+            },
+
+            loginToServer: function() {
+                let self = this;
+
+                // Get login details.
+                let fb = this.$store.state.facebook;
+                console.log("Got fb", fb);
+
+                if (fb) {
+                    let data = new FormData();
+                    data.append('facebooktoken', fb.token);
+
+                    axios.post(API + 'user', data)
+                        .then(function (response) {
+                            console.log("login response", response);
+                            let ret = response.data
+
+                            if (ret.ret !== 0) {
+                                console.error("Not logged in on server", ret);
+                                self.$store.commit('clearFacebook');
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log("login error", error);
+                        });
+                } else {
+                    self.$store.commit('clearFacebook');
+                }
             },
 
             fblogin: function() {
@@ -86,6 +121,7 @@
                         console.log("Set facebook", self, data);
                         self.$store.commit('setFacebook', data);
                         self.loginShow = false;
+                        self.loginToServer();
                     }
                 }, {
                     scope: 'email'

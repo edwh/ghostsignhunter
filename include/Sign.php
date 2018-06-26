@@ -10,7 +10,7 @@ use WindowsAzure\Common\ServicesBuilder;
 use MicrosoftAzure\Storage\Blob\Models\CreateBlobOptions;
 
 class Sign extends Entity {
-    public $publicatts = [ 'id', 'lat', 'lng', 'title', 'userid', 'added' ];
+    public $publicatts = [ 'id', 'lat', 'lng', 'title', 'notes', 'userid', 'added' ];
 
     const TYPE_SIGN = 'Sign';
 
@@ -70,7 +70,7 @@ class Sign extends Entity {
         return (($lat_lon_ref == "S" || $lat_lon_ref == "W" ) ? '-'.$coordination : $coordination);
     }
 
-    public function create($lat, $lng, $data) {
+    public function create($lat, $lng, $data, $title = NULL, $notes = NULL) {
         # We generate a perceptual hash.  This allows us to spot duplicate or similar images later.
         $hasher = new ImageHash;
         $img = @imagecreatefromstring($data);
@@ -96,11 +96,13 @@ class Sign extends Entity {
         $imgid = NULL;
 
         if ($lat !== NULL && $lng !== NULL) {
-            $rc = $this->dbhm->preExec("INSERT INTO signs (`lat`, `lng`, `latlng`, `data`, `hash`) VALUES (?, ?, GEOMFROMTEXT('POINT($lng $lat)'), ?, ?);", [
+            $rc = $this->dbhm->preExec("INSERT INTO signs (`lat`, `lng`, `latlng`, `data`, `hash`, `title`, `notes`) VALUES (?, ?, GEOMFROMTEXT('POINT($lng $lat)'), ?, ?, ?, ?);", [
                 $lat,
                 $lng,
                 $data,
-                $hash
+                $hash,
+                $title,
+                $notes
             ]);
 
             $imgid = $rc ? $this->dbhm->lastInsertId() : NULL;
