@@ -15,9 +15,23 @@
         <b-row>
             <b-col cols="12" cols-sm="8" class="text-center" v-if="latlng">
                 <b-img thumbnail style="max-width: 400px" class="mt-3" v-if="imagedata" :src="imagedata" />
-                <p class="mt-3">This photo was taken at {{ Math.round(lat * 1000 ) / 1000 }}, {{ Math.round(lng * 1000) / 1000 }}</p>
-                <p>You can drag the marker to alter the position.</p>
-                <b-img width="200" height="200" :src="getStaticMap()" />
+                <p class="mt-3">This photo was taken at {{ Math.round(lat * 100000 ) / 100000 }}, {{ Math.round(lng * 100000) / 100000 }}</p>
+                <p v-if="address"><em><b>{{ address }}</b></em></p>
+                <p>You can drag the marker to alter the position - perhaps you took the picture from a distance.</p>
+                <GmapMap rounded
+                         :center="latlng"
+                         :zoom="16"
+                         ref="map"
+                         :options="mapOptions"
+                         style="width: 200px; height: 200px; float: none; margin: 0 auto;">
+                    <gmap-marker
+                            :position="latlng"
+                            :draggable="true"
+                            :icon="getIcon()",
+                            :animation="2",
+                            @dragend="drag"
+                    />
+                </GmapMap>
             </b-col>
         </b-row>
     </b-container>
@@ -42,7 +56,13 @@
                 latlng: false,
                 lat: null,
                 lng: null,
-                imagedata: null
+                imagedata: null,
+                address: null,
+                mapOptions: {
+                    fullscreenControl: false,
+                    mapTypeControl: false,
+                    streetViewControl: false
+                }
             }
         },
         methods: {
@@ -50,11 +70,26 @@
                 return API + 'image'
             },
 
+            getIcon: function() {
+                return({
+                    url: require('~/assets/mapicon.png'),
+                    size: {width: 46, height: 46, f: 'px', b: 'px'},
+                    scaledSize: {width: 23, height: 23, f: 'px', b: 'px'},
+                    anchor: new google.maps.Point(0, 32)
+                });
+            },
+
             getStaticMap: function() {
                 let lat = this.lat;
                 let lng = this.lng;
                 let url = 'https://maps.googleapis.com/maps/api/staticmap?center=' + lat + "," + lng + "&markers=color:blue%7C" + lat + "," + lng + "&size=200x200&zoom=16&key=" + GOOGLE_MAPKEY;
                 return(url)
+            },
+
+            drag: function(e) {
+                console.log("Drag", e);
+                this.lat = Math.round(100000 * e.latLng.lat()) / 100000;
+                this.lng = Math.round(100000 * e.latLng.lng()) / 100000;
             },
 
             imagechanged(res) {
@@ -69,16 +104,28 @@
 
                     let lat = null;
                     let lng = null;
+                    let latlng = null;
 
                     if (exifObj.hasOwnProperty('GPS')) {
                         let gps = exifObj.GPS;
                         lat = ConvertDMSToDD(gps[2][0][0], gps[2][1][0], gps[2][2][0], gps[1]);
                         lng = ConvertDMSToDD(gps[4][0][0], gps[4][1][0], gps[4][2][0], gps[3]);
+
+                        // Find the location.
+                        let geocoder = new google.maps.Geocoder;
+                        latlng = new google.maps.LatLng(lat, lng)
+                        geocoder.geocode({'location': latlng}, function(results, status) {
+                            if (status === 'OK' && results.length) {
+                                console.log("Got results", results);
+                                self.address = results[0].formatted_address;
+                                console.log("Address", this.address);
+                            }
+                        });
                     }
 
                     self.lat = lat;
                     self.lng = lng;
-                    self.latlng = true;
+                    self.latlng = latlng;
                 }
 
                 reader.readAsBinaryString(res);
