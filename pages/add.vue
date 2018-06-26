@@ -1,8 +1,9 @@
 <template>
-    <div>
+    <b-container fluid>
         <b-row>
-            <b-col class="text-center">
+            <b-col cols="12" class="text-center">
                 <vue-core-image-upload
+                        text="Choose photo"
                         class="mt-3 btn btn-success"
                         @imagechanged="imagechanged"
                         inputOfFile="photo"
@@ -12,13 +13,14 @@
             </b-col>
         </b-row>
         <b-row>
-            <b-col class="text-center" v-if="latlng">
-                <!--<b-img fluid rounded src="{{image.}}"-->
+            <b-col cols="12" cols-sm="8" class="text-center" v-if="latlng">
+                <b-img thumbnail style="max-width: 400px" class="mt-3" v-if="imagedata" :src="imagedata" />
                 <p class="mt-3">This photo was taken at {{ Math.round(lat * 1000 ) / 1000 }}, {{ Math.round(lng * 1000) / 1000 }}</p>
+                <p>You can drag the marker to alter the position.</p>
                 <b-img width="200" height="200" :src="getStaticMap()" />
             </b-col>
         </b-row>
-    </div>
+    </b-container>
 </template>
 
 <script>
@@ -39,7 +41,8 @@
             return {
                 latlng: false,
                 lat: null,
-                lng: null
+                lng: null,
+                imagedata: null
             }
         },
         methods: {
@@ -59,7 +62,7 @@
 
                 // Load the file.
                 let reader = new window.FileReader()
-                reader.onload = function (event) {
+                reader.onloadend = function (event) {
                     // Get the exif data.
                     let data = event.target.result
                     let exifObj = piexif.load(data);
@@ -79,6 +82,14 @@
                 }
 
                 reader.readAsBinaryString(res);
+
+                // Also read into a thumbnail.
+                let reader2 = new window.FileReader();
+                reader2.onloadend = function() {
+                    self.imagedata = reader2.result;
+                }
+
+                reader2.readAsDataURL(res);
             }
         }
     }
