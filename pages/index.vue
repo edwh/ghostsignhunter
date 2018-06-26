@@ -4,7 +4,7 @@
             <b-col cols="0" sm="2" class="d-none d-sm-block">
             </b-col>
             <b-col cols="12" sm="8" class="text-center p-0">
-                <gmap-autocomplete style="top: 2px; position: absolute; z-index: 10000; width: 300px" @place_changed="searched" />
+                <gmap-autocomplete style="top: 2px; position: absolute; z-index: 900; width: 300px" @place_changed="searched" />
                 <GmapMap rounded
                          :center="getStart()"
                          :zoom="getZoom()"
@@ -33,11 +33,11 @@
                     </span>
                 </b-col>
             </b-row>
-            <hr  v-if="modalItem" />
-            <p class="my-4" v-if="modalItem">
+            <hr  v-if="modalItem && modalItem.notes" />
+            <p class="my-4" v-if="modalItem && modalItem.notes">
                 {{ modalItem.notes }}
             </p>
-            <hr  v-if="modalItem" />
+            <hr  v-if="modalItem && modalItem.notes" />
             <b-row>
                 <b-col cols="12">
                     <p>It's more fun if you try to find the sign yourself first, but you can click to unlock the photo.</p>
