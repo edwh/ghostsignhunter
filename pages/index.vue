@@ -12,7 +12,7 @@
                          @idle="onIdle"
                          style="width: 100%; height: calc(100vh - 56px)"
                 >
-                    <gmap-cluster>
+                    <gmap-cluster :maxZoom="12">
                         <gmap-marker v-for="(item, key) in $store.state.signs" :key="key" :position="getPosition(item)" :icon="getIcon(item)" :clickable="true" @click="toggleModal(item, key)" />
                     </gmap-cluster>
                 </GmapMap>
@@ -121,9 +121,51 @@
                             sign.user = found;
                         })
 
-                        self.$store.commit('setSigns', ret.signs);
+                        self.$store.commit('setSigns', self.arrange(ret.signs));
                     }
                 })
+            },
+
+            arrange (data) {
+                const RADIUS = 0.0001
+
+                const getKey = (coords) => `${coords.lat}:${coords.lng}`
+                const randomInRange = (min, max, seed) => Math.random(seed) * (max - min) + min
+
+                let lookupMap = {}
+
+                // Find out how many points are in the same location.
+                data.forEach((item, index) => {
+                    let key = getKey(item)
+                    if (lookupMap.hasOwnProperty(key)) {
+                        lookupMap[key]++
+                    } else {
+                        lookupMap[key] = 1
+                    }
+                })
+
+                // Now put each point which is at the same location around a circle.
+                data.forEach((item, index) => {
+                    let key = getKey(item)
+                    console.log("Consider", item, key);
+
+                    if (lookupMap[key] > 1) {
+                        let count = 0
+                        data.forEach((item2, index2) => {
+                            let key2 = getKey(item2)
+
+                            if (key2 == key) {
+                                let angle = count++ / (lookupMap[key] / 2) * Math.PI
+                                let newlat = item2.lat + (RADIUS * Math.cos(angle))
+                                let newlng = item2.lng + (RADIUS * Math.sin(angle))
+                                data[index2].lat = newlat
+                                data[index2].lng = newlng
+                            }
+                        })
+                    }
+                })
+
+                return (data)
             },
 
             getPosition: function(marker) {
