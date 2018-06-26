@@ -4,6 +4,7 @@
             <b-col cols="0" sm="2" class="d-none d-sm-block">
             </b-col>
             <b-col cols="12" sm="8" class="text-center p-0">
+                <gmap-autocomplete style="top: 2px; position: absolute; z-index: 10000; width: 300px" @place_changed="searched" />
                 <GmapMap rounded
                          :center="getStart()"
                          :zoom="getZoom()"
@@ -124,6 +125,15 @@
                         self.$store.commit('setSigns', self.arrange(ret.signs));
                     }
                 })
+            },
+
+            searched: function(res) {
+                console.log("Searched", res);
+                let map = this.$refs.map.$mapObject;
+
+                if (res.geometry && res.geometry.viewport) {
+                    map.fitBounds(res.geometry.viewport);
+                }
             },
 
             arrange (data) {
