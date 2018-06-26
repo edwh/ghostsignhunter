@@ -1,4 +1,5 @@
 const webpack = require('webpack')
+const FaviconsPlugin = require('favicons-webpack-plugin')
 
 module.exports = {
     head: {
@@ -9,7 +10,7 @@ module.exports = {
             {hid: 'description', content: 'Hunt those ghosts!'}
         ],
         link: [
-            {rel: 'icon', type: 'image/x-icon', href: '~assets/favicon.ico'}
+            {rel: 'icon', type: 'image/x-icon', href: 'favicon.ico'}
         ]
     },
     css: [],
@@ -66,7 +67,8 @@ module.exports = {
             }),
             new webpack.ProvidePlugin({
                 '_': 'lodash'
-            })
+            }),
+            new FaviconsPlugin('~/assets/icon.png')
         ]
     },
 
