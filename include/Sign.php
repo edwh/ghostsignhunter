@@ -4,6 +4,7 @@ require_once(BASE . '/include/utils.php');
 require_once(BASE . '/include/misc/Entity.php');
 require_once(BASE . '/include/misc/Image.php');
 require_once(BASE . '/include/User.php');
+require_once(BASE . '/include/News.php');
 
 use Jenssegers\ImageHash\ImageHash;
 use WindowsAzure\Common\ServicesBuilder;
@@ -93,7 +94,7 @@ class Sign extends Entity {
             }
         }
 
-        $imgid = NULL;
+        $id = NULL;
 
         if ($lat !== NULL && $lng !== NULL) {
             $rc = $this->dbhm->preExec("INSERT INTO signs (`lat`, `lng`, `latlng`, `data`, `hash`, `title`, `notes`) VALUES (?, ?, GEOMFROMTEXT('POINT($lng $lat)'), ?, ?, ?, ?);", [
@@ -105,14 +106,17 @@ class Sign extends Entity {
                 $notes
             ]);
 
-            $imgid = $rc ? $this->dbhm->lastInsertId() : NULL;
+            $id = $rc ? $this->dbhm->lastInsertId() : NULL;
         }
 
-        if ($imgid) {
-            $this->id = $imgid;
+        if ($id) {
+            $this->id = $id;
+
+            $n = new News($this->dbhr, $this->dbhm);
+            $n->create(News::TYPE_ADDED, presdef('id', $_SESSION, NULL), $id, $title, $lat, $lng);
         }
 
-        return($imgid);
+        return($id);
     }
 
     public function archive() {

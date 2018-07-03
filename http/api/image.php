@@ -11,8 +11,8 @@ function image() {
 
     switch ($_REQUEST['type']) {
         case 'GET': {
-            $a = new Sign($dbhr, $dbhm, $id);
-            $data = $a->getData();
+            $s = new Sign($dbhr, $dbhm, $id);
+            $data = $s->getData();
             $i = new Image($data);
 
             $ret = [
@@ -56,12 +56,12 @@ function image() {
 
             if ($rotate) {
                 # We want to rotate.  Do so.
-                $a = new Sign($dbhr, $dbhm, $id);
-                $data = $a->getData();
+                $s = new Sign($dbhr, $dbhm, $id);
+                $data = $s->getData();
                 $i = new Image($data);
                 $i->rotate($rotate);
                 $newdata = $i->getData(100);
-                $a->setData($newdata);
+                $s->setData($newdata);
 
                 $ret = [
                     'ret' => 0,
@@ -124,20 +124,18 @@ function image() {
                     error_log("Create image len " . strlen($data));
 
                     if ($data) {
-                        $a = new Sign($dbhr, $dbhm, NULL);
-                        $id = $a->create($lat, $lng, $data, $title, $notes);
-                        error_log("Created $id");
+                        $s = new Sign($dbhr, $dbhm, NULL);
+                        $id = $s->create($lat, $lng, $data, $title, $notes);
 
                         error_log("Session " . var_export($_SESSION, TRUE));
 
                         if (pres('id', $_SESSION)) {
-                            error_log("Record creator " . $_SESSION['id']);
-                            $a->setPrivate('userid', $_SESSION['id']);
+                            $s->setPrivate('userid', $_SESSION['id']);
                         }
 
                         # Make sure it's not too large, to keep DB size down.  Ought to have been resized by
                         # client, but you never know.
-                        $data = $a->getData();
+                        $data = $s->getData();
                         $i = new Image($data);
                         $h = $i->height();
                         $w = $i->width();
@@ -147,15 +145,15 @@ function image() {
                             $w = $sizelimit;
                             $i->scale($w, $h);
                             $data = $i->getData(100);
-                            $a->setPrivate('data', $data);
+                            $s->setPrivate('data', $data);
                         }
 
                         $ret = [
                             'ret' => 0,
                             'status' => 'Success',
                             'id' => $id,
-                            'path' => $a->getPath(FALSE),
-                            'paththumb' => $a->getPath(TRUE)
+                            'path' => $s->getPath(FALSE),
+                            'paththumb' => $s->getPath(TRUE)
                         ];
                     }
                 }

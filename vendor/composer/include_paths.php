@@ -12,5 +12,4 @@ return array(
     $vendorDir . '/pear/net_url2',
     $vendorDir . '/pear/pear-core-minimal/src',
     $vendorDir . '/pear/pear_exception',
-    $vendorDir . '/phpunit/phpunit-selenium',
 );

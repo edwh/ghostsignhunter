@@ -6,8 +6,6 @@ function user() {
 
     $ret = [ 'ret' => 1, 'status' => 'Unknown verb' ];
 
-    error_log("User " . var_export($_REQUEST, TRUE));
-
     switch ($_REQUEST['type']) {
         case 'GET': {
             $u = new User($dbhr, $dbhm, $id);

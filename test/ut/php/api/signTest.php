@@ -25,6 +25,19 @@ class signAPITest extends GSAPITestCase
         $id = $p->create(NULL, NULL, $data);
         assertNotNull($id);
 
+        # Should be in news
+        $ret = $this->call('news', 'GET', []);
+        error_log("Should be in news " . var_export($ret, TRUE));
+        $found = FALSE;
+
+        foreach ($ret['news'] as $news) {
+            if (pres('sign', $news) && $news['sign']['id'] == $id) {
+                $found = TRUE;
+            }
+        }
+
+        assertTrue($found);
+
         # Search should find it
         #
         # This one is at 53.872777777778, -2.3905555555556

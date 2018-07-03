@@ -1,5 +1,5 @@
 <?php
-session_start();
+@session_start();
 $scriptstart = microtime(true);
 
 $_SERVER['REQUEST_METHOD'] = strtoupper($_SERVER['REQUEST_METHOD']);
@@ -32,11 +32,13 @@ require_once(BASE . '/include/utils.php');
 require_once(BASE . '/include/misc/Image.php');
 require_once(BASE . '/include/Sign.php');
 require_once(BASE . '/include/User.php');
+require_once(BASE . '/include/News.php');
 
 # Include each API call
 require_once(BASE . '/http/api/sign.php');
 require_once(BASE . '/http/api/image.php');
 require_once(BASE . '/http/api/user.php');
+require_once(BASE . '/http/api/news.php');
 
 $includetime = microtime(true) - $scriptstart;
 
@@ -134,6 +136,9 @@ if ($_REQUEST['type'] == 'OPTIONS') {
             switch ($call) {
                 case 'image':
                     $ret = image();
+                    break;
+                case 'news':
+                    $ret = news();
                     break;
                 case 'sign':
                     $ret = sign();
