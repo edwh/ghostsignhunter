@@ -2,6 +2,9 @@
     <div class="container-fluid d-flex h-100 flex-column">
         <b-row>
             <b-col cols="0" sm="2" class="d-none d-sm-block">
+                <news
+                        style="width: 100%; height: calc(100vh - 56px); overflow-y: scroll"
+                ></news>
             </b-col>
             <b-col cols="12" sm="8" class="text-center p-0">
                 <gmap-autocomplete style="top: 2px; position: absolute; z-index: 900; width: 300px" @place_changed="searched" />
@@ -57,6 +60,8 @@
 <script>
     import axios from 'axios';
     import Vue from 'vue';
+
+    import News from '~/components/news'
 
     export default {
         data () {
@@ -157,7 +162,6 @@
                 // Now put each point which is at the same location around a circle.
                 data.forEach((item, index) => {
                     let key = getKey(item)
-                    console.log("Consider", item, key);
 
                     if (lookupMap[key] > 1) {
                         let count = 0
@@ -209,5 +213,8 @@
                 return this.modalItem ? ('https://graph.facebook.com/' + this.modalItem.user.facebook.facebookid + '/picture') : null;
             }
         },
+        components: {
+            News
+        }
     }
 </script>

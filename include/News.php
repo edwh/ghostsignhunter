@@ -60,7 +60,7 @@ class News extends Entity {
 
             if (pres('userid', $n)) {
                 $u = new User($this->dbhr, $this->dbhm, $n['userid']);
-                $n['user'] = $s->getPublic();
+                $n['user'] = $u->getPublic();
                 unset($n['userid']);
             }
         }

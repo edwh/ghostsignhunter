@@ -38,6 +38,10 @@ const createStore = () => {
                     lat: lat,
                     lng: lng
                 }
+            },
+
+            setNews(state, news) {
+                state.news = news;
             }
         }
     })
